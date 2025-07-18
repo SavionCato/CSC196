@@ -5,10 +5,24 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source\Game">
+      <UniqueIdentifier>{b888a3d8-1808-400c-8653-e02c0893f13b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Player.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game\Player.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Enemy.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

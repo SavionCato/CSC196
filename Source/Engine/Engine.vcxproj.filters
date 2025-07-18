@@ -12,13 +12,37 @@
     <Filter Include="Source\Core">
       <UniqueIdentifier>{836b6a80-4dbc-4997-bf5a-33221d2f8087}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Core\Math">
+    <Filter Include="Source\Math">
       <UniqueIdentifier>{73e085f1-1a65-4df4-8754-739cba9c680c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderer">
+      <UniqueIdentifier>{c9c8123d-3faa-4d9f-bf03-6fd8f17a131d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Audio">
+      <UniqueIdentifier>{f31d897c-6ab8-42f3-a520-8017e9f48594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{416483fb-f00b-43df-a15a-7b10920e1295}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game">
+      <UniqueIdentifier>{56895594-bcea-47d3-9ad6-400106f8d6c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Time.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
     <ClCompile Include="Engine.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Model.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\AudioSystem.cpp">
+      <Filter>Source\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderer.cpp">
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,11 +52,38 @@
     <ClInclude Include="Core\Time.h">
       <Filter>Source\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math.h">
-      <Filter>Source\Core\Math</Filter>
+    <ClInclude Include="Renderer\Model.h">
+      <Filter>Source\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
+    <ClInclude Include="Renderer\Renderer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\File.h">
       <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Math.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\AudioSystem.h">
+      <Filter>Source\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\InputSystem.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Transform.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector3.h">
+      <Filter>Source\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
