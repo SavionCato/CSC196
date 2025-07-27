@@ -17,7 +17,12 @@ namespace Rex {
 		void Tick();
 		void Reset() { m_startTime = clock::now(); }
 
+		float GetTime() const { return s_time; }
+		float GetDeltaTime() const { return s_deltaTime; }
 	private:
+
+		float s_time = 0;
+		float s_deltaTime = 0;
 
 		clock::time_point m_startTime;
 		clock::time_point m_frameTime;

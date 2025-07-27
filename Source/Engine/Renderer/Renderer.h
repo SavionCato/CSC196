@@ -18,7 +18,15 @@ namespace Rex {
 		void SetColor(uint8_t r , uint8_t g, uint8_t b, uint8_t a = 255);
 		void DrawLine(float x1, float y1, float x2, float y2);
 		void DrawPoint(float x, float y);
+
+		int GetWidth() { return s_width; }
+		int GetHeight() { return s_height; }
 	private:
+
+		friend class Text;
+		
+		int s_width{ 0 };
+		int s_height{ 0 };
 
 		SDL_Window* s_window = nullptr;
 		SDL_Renderer* s_renderer = nullptr;

@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "../Input/InputSystem.h"
 
 bool Rex::Renderer::Initialize() {
 

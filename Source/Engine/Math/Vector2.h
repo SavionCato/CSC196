@@ -1,4 +1,5 @@
 #pragma once
+#include "Math.h"
 #include <cassert>
 
 namespace Rex {
@@ -32,6 +33,24 @@ namespace Rex {
 		Vector2 operator -= (const float s) { x -= s; y -= s; return *this; }
 		Vector2 operator *= (const float s) { x *= s; y *= s; return *this; }
 		Vector2 operator /= (const float s) { x /= s; y /= s; return *this; }
+
+		float LengthSqr() const { return (x * x) * (y * y); }
+
+		float Length() const { return Rex::Math::sqrtf(LengthSqr()); }
+
+		Vector2 Normalized() const { return *this / Length(); }
+
+		float Angle() const { return Math::atan2f(y, x); }
+
+		Vector2 Rotate(float radians) const {
+
+			Vector2 v;
+
+			v.x = x * Math::cosf(radians) - y * Math::sinf(radians);
+			v.y = x * Math::sinf(radians) + y * Math::cosf(radians);
+
+			return v;
+		}
 	};
 
 	using ivec2 = Vector2<int>;
