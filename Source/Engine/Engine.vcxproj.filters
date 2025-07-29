@@ -27,6 +27,9 @@
     <Filter Include="Source\Game">
       <UniqueIdentifier>{56895594-bcea-47d3-9ad6-400106f8d6c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\FrameWork">
+      <UniqueIdentifier>{618856d6-4733-449c-9743-caaa776f376d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Time.cpp">
@@ -45,7 +48,7 @@
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Input\InputSystem.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +90,9 @@
     </ClInclude>
     <ClInclude Include="Math\Vector3.h">
       <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\StringHelper.h">
+      <Filter>Source\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

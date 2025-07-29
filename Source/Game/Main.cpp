@@ -4,6 +4,7 @@
 #include "Core/Random.h"
 #include "Renderer/Renderer.h"
 #include "Input/InputSystem.h"
+#include "Audio/AudioSystem.h"
 
 #include <iostream>
 #include <SDL3/SDL.h>
@@ -13,15 +14,13 @@
 int main(int argc, char* argv[]) {
 
     //Initialize Systems
-    FMOD::System* audio;
-    FMOD::System_Create(&audio);
-
-    void* extradriverdata = nullptr;
-    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
-
+    Rex::AudioSystem audio;
+        
     Rex::Time time;
 
     Rex::Renderer renderer;
+
+    audio.Initialize();
 
     renderer.Initialize();
     renderer.CreateWindow("Plz don't blow up", 1280, 1024);
@@ -41,18 +40,11 @@ int main(int argc, char* argv[]) {
     }
 
     std::vector<Rex::vec2> points;
-
-    FMOD::Sound* sound = nullptr;
-    std::vector<FMOD::Sound*> sounds;
-
-    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
+    
+    audio.AddSound("clap.wav", "clap");    
+    audio.AddSound("bass.wav", "bass");
+    audio.AddSound("close-hat.wav", "close-hat");    
+    audio.AddSound("snare.wav", "snare");    
     
     while (!quit) {
 
@@ -64,7 +56,7 @@ int main(int argc, char* argv[]) {
         }
 
         //Update Systems
-        audio->update();
+        audio.Update();
         input.Update();
         
         if (input.GetMouseButtonDown(Rex::InputSystem::MouseButton::Left)) {
@@ -79,10 +71,10 @@ int main(int argc, char* argv[]) {
             }
         }
         
-        if (input.GetKeyDown(SDL_SCANCODE_W))audio->playSound(sounds[0], 0, false, nullptr);
-        if (input.GetKeyDown(SDL_SCANCODE_A))audio->playSound(sounds[1], 0, false, nullptr);
-        if (input.GetKeyDown(SDL_SCANCODE_S))audio->playSound(sounds[2], 0, false, nullptr);
-        if (input.GetKeyDown(SDL_SCANCODE_D))audio->playSound(sounds[3], 0, false, nullptr);
+        if (input.GetKeyDown(SDL_SCANCODE_W)) audio.PlaySound("clap");
+        if (input.GetKeyDown(SDL_SCANCODE_A)) audio.PlaySound("bass");
+        if (input.GetKeyDown(SDL_SCANCODE_S)) audio.PlaySound("close-hat");
+        if (input.GetKeyDown(SDL_SCANCODE_D)) audio.PlaySound("snare");
 
         //draw
         renderer.SetColor(0, 0, 0);
@@ -119,6 +111,7 @@ int main(int argc, char* argv[]) {
         renderer.Present();
     }
 
+    audio.Shutdown();
     renderer.Shutdown();
     input.Shutdown();
 
