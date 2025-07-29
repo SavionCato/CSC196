@@ -7,9 +7,18 @@
 
 #include <iostream>
 #include <SDL3/SDL.h>
+#include <fmod.hpp>
 
 
 int main(int argc, char* argv[]) {
+
+    //Initialize Systems
+    FMOD::System* audio;
+    FMOD::System_Create(&audio);
+
+    void* extradriverdata = nullptr;
+    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
+
     Rex::Time time;
 
     Rex::Renderer renderer;
@@ -24,6 +33,7 @@ int main(int argc, char* argv[]) {
     SDL_Event e;
     bool quit = false;
 
+    //Init Objects
     std::vector<Rex::vec2> stars;
     for (int i = 0; i < 100; i++) {
 
@@ -32,6 +42,18 @@ int main(int argc, char* argv[]) {
 
     std::vector<Rex::vec2> points;
 
+    FMOD::Sound* sound = nullptr;
+    std::vector<FMOD::Sound*> sounds;
+
+    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    
     while (!quit) {
 
         time.Tick();
@@ -41,14 +63,11 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        //Update Systems
+        audio->update();
         input.Update();
         
-        if(input.GetKeyPressed(SDL_SCANCODE_A)) {
-        
-            std::cout << "pressed\n";
-        }
-
-        if (input.GetMouseButtonDown(0)) {
+        if (input.GetMouseButtonDown(Rex::InputSystem::MouseButton::Left)) {
 
             Rex::vec2 position = input.GetMousePos();
             if (points.empty()) {
@@ -59,7 +78,13 @@ int main(int argc, char* argv[]) {
                 points.push_back(position); 
             }
         }
+        
+        if (input.GetKeyDown(SDL_SCANCODE_W))audio->playSound(sounds[0], 0, false, nullptr);
+        if (input.GetKeyDown(SDL_SCANCODE_A))audio->playSound(sounds[1], 0, false, nullptr);
+        if (input.GetKeyDown(SDL_SCANCODE_S))audio->playSound(sounds[2], 0, false, nullptr);
+        if (input.GetKeyDown(SDL_SCANCODE_D))audio->playSound(sounds[3], 0, false, nullptr);
 
+        //draw
         renderer.SetColor(0, 0, 0);
         renderer.Clear(); // Clear the renderer
        
@@ -75,12 +100,8 @@ int main(int argc, char* argv[]) {
                     renderer.DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
                 }
             }
-        }
-
-        /*Rex::vec2 mouse = input.GetMousePos();
-        std::cout << mouse.x << " " << mouse.y << std::endl;*/
-
-        
+        }        
+               
         Rex::vec2 speed{ -140.0f, 0.0f };
         float length = speed.Length();
 

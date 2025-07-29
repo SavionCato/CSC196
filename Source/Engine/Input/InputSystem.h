@@ -8,6 +8,14 @@ namespace Rex {
 	class InputSystem {
 	public:
 
+		enum class MouseButton : uint8_t{
+
+			Left,
+			Middle,
+			Right
+		};
+	public:
+
 		InputSystem() = default;
 		
 		bool Initialize();
@@ -22,10 +30,10 @@ namespace Rex {
 		bool GetKeyRelease(uint8_t key) { return s_prevKeyboardState[key] && !s_keyboardState[key]; }
 
 		//Mouse Input
-		bool GetMouseButtonDown(uint8_t button) { assert(button < 3); return s_mouseButtonState[button]; }
-		bool GetPrevMouseButtonDown(uint8_t button) { assert(button < 3); return s_prevMouseButtonState[button]; }
-		bool GetMouseButtonPressed(uint8_t button) { assert(button < 3); return !s_prevMouseButtonState[button] && s_mouseButtonState[button]; }
-		bool GetMouseButtonReleaased(uint8_t button) { assert(button < 3); return s_prevMouseButtonState[button] && !s_mouseButtonState[button]; }
+		bool GetMouseButtonDown(MouseButton button) { assert(button < 3); return s_mouseButtonState[(uint8_t)button]; }
+		bool GetPrevMouseButtonDown(MouseButton button) { assert(button < 3); return s_prevMouseButtonState[(uint8_t)button];}
+		bool GetMouseButtonPressed(MouseButton button) { assert(button < 3); return !s_prevMouseButtonState[(uint8_t)button] && s_mouseButtonState[(uint8_t)button]; }
+		bool GetMouseButtonReleaased(MouseButton button) { assert(button < 3); return s_prevMouseButtonState[(uint8_t)button] && !s_mouseButtonState[(uint8_t)button]; }
 
 		const vec2& GetMousePos() const { return s_mousePos; }
 		const vec2& GetPrevMousePos() const { return s_prevMousePos; }

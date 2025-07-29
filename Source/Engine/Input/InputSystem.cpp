@@ -39,8 +39,8 @@ namespace Rex {
 
         uint32_t mouseButtonState = SDL_GetMouseState(&s_mousePos.x, &s_mousePos.y);   
 
-        s_mouseButtonState[0] = mouseButtonState & SDL_BUTTON_LMASK;
-        s_mouseButtonState[1] = mouseButtonState & SDL_BUTTON_MMASK;
-        s_mouseButtonState[2] = mouseButtonState & SDL_BUTTON_RMASK;
+        s_mouseButtonState[(uint8_t)MouseButton::Left] = mouseButtonState & SDL_BUTTON_LMASK;
+        s_mouseButtonState[(uint8_t)MouseButton::Middle] = mouseButtonState & SDL_BUTTON_MMASK;
+        s_mouseButtonState[(uint8_t)MouseButton::Right] = mouseButtonState & SDL_BUTTON_RMASK;
     }
 }
