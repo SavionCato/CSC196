@@ -1,10 +1,12 @@
 #include "Math/Math.h"
 #include "Math/Vector2.h"
+#include "Math/Vector3.h"
 #include "Core/Time.h"
 #include "Core/Random.h"
 #include "Renderer/Renderer.h"
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
+#include "Renderer/Model.h"
 
 #include <iostream>
 #include <SDL3/SDL.h>
@@ -13,6 +15,18 @@
 
 int main(int argc, char* argv[]) {
 
+    union data_t {
+
+        bool b;
+        int i;
+        double d;
+    };
+
+    data_t data;
+    data.b = true;
+
+    std::cout << data.b << std::endl;
+
     //Initialize Systems
     Rex::AudioSystem audio;
         
@@ -20,12 +34,23 @@ int main(int argc, char* argv[]) {
 
     Rex::Renderer renderer;
 
+    Rex::InputSystem input;
+
+    std::vector<Rex::vec2> points{
+
+        {5, 5},
+        {15, 5},
+        {15, 15},
+        {5, 15}
+    }; 
+
+    Rex::Model model{ points, Rex::vec3{500,0,0} };
+
     audio.Initialize();
 
     renderer.Initialize();
     renderer.CreateWindow("Plz don't blow up", 1280, 1024);
 
-    Rex::InputSystem input;
     input.Initialize();
 
 
@@ -38,9 +63,7 @@ int main(int argc, char* argv[]) {
 
         stars.push_back(Rex::vec2(Rex::Random::getRandomFloat() * 1280, Rex::Random::getRandomFloat() * 1024));
     }
-
-    std::vector<Rex::vec2> points;
-    
+        
     audio.AddSound("clap.wav", "clap");    
     audio.AddSound("bass.wav", "bass");
     audio.AddSound("close-hat.wav", "close-hat");    
@@ -55,21 +78,11 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        if (input.GetKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
+
         //Update Systems
         audio.Update();
-        input.Update();
-        
-        if (input.GetMouseButtonDown(Rex::InputSystem::MouseButton::Left)) {
-
-            Rex::vec2 position = input.GetMousePos();
-            if (points.empty()) {
-                
-                points.push_back(position);
-            } else if ((position - points.back()).Length() > 10) {
-                
-                points.push_back(position); 
-            }
-        }
+        input.Update();       
         
         if (input.GetKeyDown(SDL_SCANCODE_W)) audio.PlaySound("clap");
         if (input.GetKeyDown(SDL_SCANCODE_A)) audio.PlaySound("bass");
@@ -77,23 +90,13 @@ int main(int argc, char* argv[]) {
         if (input.GetKeyDown(SDL_SCANCODE_D)) audio.PlaySound("snare");
 
         //draw
-        renderer.SetColor(0, 0, 0);
+        Rex::vec3 color{0, 0, 0};       
+
+        renderer.SetColor(color.r, color.g, color.b);
         renderer.Clear(); // Clear the renderer
        
-        if (points.size() > 0) {
-
-            for (int i = 0; i < points.size() - 1; i++) {
-
-                // set color or random color
-                renderer.SetColor(Rex::Random::getRandomInt(256), Rex::Random::getRandomInt(256), Rex::Random::getRandomInt(256));
-
-                if (points.size() > 1) {
-
-                    renderer.DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
-                }
-            }
-        }        
-               
+        model.Draw(renderer, input.GetMousePos(), time.GetTime(), 10.0f);
+                               
         Rex::vec2 speed{ -140.0f, 0.0f };
         float length = speed.Length();
 
@@ -104,7 +107,7 @@ int main(int argc, char* argv[]) {
             if (star[0] > 1280) star[0] = 0;
             if (star[0] < 0) star[0] = 1280;
 
-            renderer.SetColor(Rex::Random::getRandomInt(256), Rex::Random::getRandomInt(256), Rex::Random::getRandomInt(256));
+            renderer.SetColor((uint8_t)Rex::Random::getRandomInt(256), (uint8_t)Rex::Random::getRandomInt(256), (uint8_t)Rex::Random::getRandomInt(256));
             renderer.DrawPoint(star.x, star.y);
         }
         
